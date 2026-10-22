@@ -1,0 +1,2197 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10152f">
+  <meta name="description" content="Buse'ye tatlı rüyalar dilemek için hazırlanmış küçük bir gece notu.">
+  <title>İyi Geceler, Buse ✨</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      --cream: #fff6e9;
+      --muted: #c2c7e0;
+      --lavender: #c9b7ff;
+      --pink: #ffc5d4;
+      --card-border: rgba(231, 222, 255, .14);
+      --card-background: rgba(255, 255, 255, .055);
+      --unit-background: rgba(13, 16, 42, .24);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-width: 320px;
+      min-height: 100vh;
+      margin: 0;
+      overflow-x: hidden;
+      color: var(--cream);
+      transition: background 1s ease, color .6s ease;
+      background:
+        radial-gradient(ellipse at 50% 112%, rgba(108, 86, 166, .46), transparent 48%),
+        radial-gradient(ellipse at 12% 15%, rgba(60, 75, 132, .25), transparent 34%),
+        linear-gradient(155deg, #11172f 0%, #171a3d 52%, #252044 100%);
+    }
+
+    body[data-theme="day"] {
+      color-scheme: light;
+      --cream: #352d4c;
+      --muted: #655f78;
+      --lavender: #7057a6;
+      --pink: #b85d81;
+      --card-border: rgba(88, 65, 118, .14);
+      --card-background: rgba(255, 255, 255, .48);
+      --unit-background: rgba(255, 255, 255, .38);
+      background:
+        radial-gradient(ellipse at 50% 112%, rgba(242, 174, 151, .48), transparent 48%),
+        radial-gradient(ellipse at 12% 15%, rgba(255, 224, 173, .5), transparent 34%),
+        linear-gradient(155deg, #f8e8d9 0%, #eee2f4 52%, #e7d9ef 100%);
+    }
+
+    body::before,
+    body::after {
+      position: fixed;
+      z-index: -1;
+      width: 32rem;
+      height: 32rem;
+      border-radius: 50%;
+      content: "";
+      pointer-events: none;
+      filter: blur(90px);
+      opacity: .16;
+    }
+
+    body::before { top: -20rem; right: -12rem; background: #8c79e8; }
+    body::after { bottom: -25rem; left: -14rem; background: #e98caf; }
+
+    body[data-theme="day"]::before { background: #ffd37e; opacity: .24; }
+    body[data-theme="day"]::after { background: #ee9fae; opacity: .2; }
+
+    .sky {
+      position: fixed;
+      z-index: 0;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .star {
+      position: absolute;
+      width: var(--size);
+      height: var(--size);
+      border-radius: 50%;
+      background: #fff9e8;
+      opacity: var(--opacity);
+      box-shadow: 0 0 5px 1px rgba(255, 249, 232, .72), 0 0 12px 2px rgba(201, 183, 255, .35);
+      animation: twinkle var(--duration) ease-in-out infinite alternate;
+      animation-delay: var(--delay);
+      pointer-events: auto;
+      cursor: pointer;
+    }
+
+    .orbit-star:focus-visible,
+    .garden-decoration:focus-visible {
+      outline: 2px solid var(--lavender);
+      outline-offset: 4px;
+    }
+
+    .star::before {
+      position: absolute;
+      inset: -8px;
+      content: "";
+    }
+
+    body[data-theme="day"] .sky { opacity: 0; }
+    body[data-theme="day"] .star { pointer-events: none; }
+
+    .day-garden {
+      position: fixed;
+      z-index: 2;
+      inset: 0;
+      overflow: hidden;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .7s ease;
+    }
+
+    body[data-theme="day"] .day-garden { opacity: 1; }
+
+    .garden-decoration {
+      position: absolute;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      font-family: inherit;
+      font-size: clamp(1.25rem, 2.5vw, 2rem);
+      filter: drop-shadow(0 3px 8px rgba(110, 75, 88, .16));
+      animation: garden-float 4s ease-in-out infinite alternate;
+      pointer-events: none;
+      cursor: pointer;
+    }
+
+    body[data-theme="day"] .garden-decoration { pointer-events: auto; }
+
+    .garden-decoration:nth-child(even) { animation-delay: -2s; }
+    .garden-decoration.one { top: 19%; left: 8%; }
+    .garden-decoration.two { top: 24%; right: 9%; }
+    .garden-decoration.three { bottom: 18%; left: 11%; }
+    .garden-decoration.four { right: 8%; bottom: 16%; }
+    .garden-decoration.five { top: 8%; right: 23%; font-size: 1.2rem; }
+    .garden-decoration.six { bottom: 8%; left: 4%; font-size: 1.3rem; }
+
+    .page {
+      position: relative;
+      min-height: 100vh;
+      padding: 36px 28px;
+      pointer-events: none;
+    }
+
+    .layout {
+      display: flex;
+      width: min(100%, 1120px);
+      min-height: calc(100vh - 72px);
+      align-items: center;
+      margin: 0 auto;
+      pointer-events: none;
+    }
+
+    .greeting {
+      width: min(100%, 680px);
+      justify-self: center;
+      margin: 0 auto;
+      text-align: center;
+      animation: arrive 1s cubic-bezier(.2, .75, .3, 1) both;
+      pointer-events: none;
+    }
+
+    .greeting > *,
+    .study-menu { pointer-events: auto; }
+
+    .study-menu {
+      position: fixed;
+      z-index: 20;
+      inset: 0 auto 0 0;
+      width: min(370px, calc(100vw - 28px));
+      padding: 22px 18px 30px;
+      display: grid;
+      align-content: start;
+      gap: 16px;
+      overflow-y: auto;
+      border-right: 1px solid var(--card-border);
+      background: color-mix(in srgb, #11172f 88%, transparent);
+      box-shadow: 18px 0 50px rgba(6, 8, 22, .22);
+      backdrop-filter: blur(22px);
+      transform: translateX(-105%);
+      transition: transform .32s cubic-bezier(.2, .75, .3, 1), background .6s ease;
+      overscroll-behavior: contain;
+    }
+
+    body[data-theme="day"] .study-menu {
+      background: color-mix(in srgb, #f5e9f1 91%, transparent);
+      box-shadow: 18px 0 50px rgba(75, 55, 82, .16);
+    }
+
+    .study-menu.open { transform: translateX(0); }
+
+    .menu-backdrop {
+      position: fixed;
+      z-index: 19;
+      inset: 0;
+      border: 0;
+      background: rgba(7, 9, 24, .5);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .32s ease;
+    }
+
+    .menu-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .menu-toggle,
+    .menu-close {
+      display: inline-flex;
+      min-height: 44px;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      border: 1px solid var(--card-border);
+      border-radius: 13px;
+      background: var(--card-background);
+      color: var(--cream);
+      cursor: pointer;
+      font: inherit;
+      font-size: .86rem;
+      font-weight: 600;
+      backdrop-filter: blur(12px);
+      transition: transform .2s ease, background .2s ease;
+    }
+
+    .menu-toggle {
+      position: fixed;
+      z-index: 21;
+      top: 20px;
+      left: 20px;
+      padding: 0 15px;
+      box-shadow: 0 8px 24px rgba(7, 9, 24, .18);
+    }
+
+    .menu-close { width: 44px; font-size: 1.35rem; }
+
+    .menu-toggle:hover,
+    .menu-close:hover { transform: translateY(-1px); }
+
+    .menu-toggle:focus-visible,
+    .menu-close:focus-visible {
+      outline: 3px solid var(--lavender);
+      outline-offset: 3px;
+    }
+
+    .menu-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 1px 2px 2px;
+    }
+
+    .menu-heading {
+      margin: 0;
+      color: var(--lavender);
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .personal-panel {
+      padding: 18px 20px;
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      background: var(--card-background);
+      backdrop-filter: blur(10px);
+    }
+
+    .personal-panel [hidden] { display: none; }
+
+    .personal-panel h2 {
+      margin: 0;
+      color: var(--cream);
+      font-size: .92rem;
+      font-weight: 600;
+      letter-spacing: .04em;
+    }
+
+    .personal-panel label {
+      display: grid;
+      gap: 8px;
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: .78rem;
+      text-align: left;
+    }
+
+    .personal-panel select {
+      width: 100%;
+      min-height: 42px;
+      padding: 0 11px;
+      border: 1px solid var(--card-border);
+      border-radius: 11px;
+      background: var(--unit-background);
+      color: var(--cream);
+      font: inherit;
+      font-size: .88rem;
+    }
+
+    .personal-panel input {
+      width: 100%;
+      min-height: 42px;
+      padding: 0 11px;
+      border: 1px solid var(--card-border);
+      border-radius: 11px;
+      background: var(--unit-background);
+      color: var(--cream);
+      font: inherit;
+      font-size: .9rem;
+      letter-spacing: .15em;
+    }
+
+    .personal-panel select:focus-visible {
+      outline: 3px solid var(--lavender);
+      outline-offset: 2px;
+    }
+
+    .personal-panel input:focus-visible,
+    .personal-pin-button:focus-visible {
+      outline: 3px solid var(--lavender);
+      outline-offset: 2px;
+    }
+
+    .personal-lock-message {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: .72rem;
+      line-height: 1.5;
+    }
+
+    .personal-pin-button {
+      width: 100%;
+      min-height: 40px;
+      margin-top: 12px;
+      border: 1px solid var(--card-border);
+      border-radius: 11px;
+      background: var(--unit-background);
+      color: var(--cream);
+      cursor: pointer;
+      font: inherit;
+      font-size: .8rem;
+      font-weight: 600;
+    }
+
+    .theme-feedback {
+      min-height: 1em;
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: .7rem;
+      text-align: left;
+    }
+
+    .daily-motivation,
+    .ambience-panel {
+      padding: 16px 18px;
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      background: var(--card-background);
+      backdrop-filter: blur(10px);
+    }
+
+    .daily-motivation h2,
+    .ambience-panel h2 {
+      margin: 0;
+      color: var(--cream);
+      font-size: .86rem;
+      font-weight: 600;
+    }
+
+    .daily-motivation p {
+      margin: 9px 0 0;
+      color: var(--muted);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: .85rem;
+      line-height: 1.55;
+    }
+
+    .ambience-panel label {
+      display: grid;
+      gap: 7px;
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: .74rem;
+      text-align: left;
+    }
+
+    .ambience-panel select {
+      width: 100%;
+      min-height: 40px;
+      padding: 0 10px;
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      background: var(--unit-background);
+      color: var(--cream);
+      font: inherit;
+      font-size: .82rem;
+    }
+
+    .ambience-volume-row {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+    }
+
+    .ambience-volume-row span { grid-column: 1 / -1; }
+    .ambience-volume-row input { grid-column: 1; width: 100%; accent-color: var(--lavender); }
+    .ambience-volume-row output { grid-column: 2; color: var(--cream); font-variant-numeric: tabular-nums; }
+    .ambience-panel select:disabled { opacity: .65; }
+    .ambience-panel [hidden] { display: none; }
+
+    .ambience-button {
+      display: block;
+      width: 100%;
+      min-height: 40px;
+      margin-top: 12px;
+      border: 1px solid var(--card-border);
+      border-radius: 11px;
+      background: var(--unit-background);
+      color: var(--cream);
+      cursor: pointer;
+      font: inherit;
+      font-size: .82rem;
+      font-weight: 600;
+    }
+
+    a.ambience-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+    }
+
+    .ambience-button:focus-visible,
+    .ambience-panel select:focus-visible,
+    .ambience-volume-row input:focus-visible {
+      outline: 3px solid var(--lavender);
+      outline-offset: 2px;
+    }
+
+    .ambience-feedback {
+      min-height: 1em;
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: .68rem;
+    }
+
+    .study-plan {
+      padding: 19px 20px;
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      background: var(--card-background);
+      backdrop-filter: blur(10px);
+    }
+
+    .study-plan h2 {
+      margin: 0;
+      color: var(--cream);
+      font-size: .92rem;
+      font-weight: 600;
+      letter-spacing: .04em;
+    }
+
+    .study-plan-date,
+    .study-plan-progress,
+    .streak-hint {
+      color: var(--muted);
+      font-size: .74rem;
+    }
+
+    .study-plan-date { margin: 6px 0 14px; }
+
+    .streak {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin: 0 0 15px;
+      padding: 10px 12px;
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      background: var(--unit-background);
+    }
+
+    .streak-icon { font-size: 1.25rem; }
+
+    .streak-count {
+      color: var(--pink);
+      font-size: .95rem;
+      font-weight: 700;
+    }
+
+    .streak-hint {
+      margin: 3px 0 0;
+      font-size: .68rem;
+    }
+
+    .plan-form {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 8px;
+    }
+
+    .plan-form input {
+      min-width: 0;
+      min-height: 42px;
+      padding: 0 11px;
+      border: 1px solid var(--card-border);
+      border-radius: 11px;
+      background: var(--unit-background);
+      color: var(--cream);
+      font: inherit;
+      font-size: .82rem;
+    }
+
+    .plan-form input::placeholder { color: var(--muted); opacity: .8; }
+
+    .plan-form input:focus-visible,
+    .plan-add:focus-visible,
+    .task-delete:focus-visible,
+    .task-checkbox:focus-visible {
+      outline: 3px solid var(--lavender);
+      outline-offset: 2px;
+    }
+
+    .plan-add,
+    .task-delete {
+      min-height: 42px;
+      border: 1px solid var(--card-border);
+      border-radius: 11px;
+      background: var(--unit-background);
+      color: var(--cream);
+      cursor: pointer;
+      font: inherit;
+    }
+
+    .plan-add { padding: 0 12px; font-size: .8rem; font-weight: 600; }
+
+    .plan-add:hover,
+    .task-delete:hover { background: rgba(255, 255, 255, .16); }
+
+    .plan-feedback {
+      min-height: 1em;
+      margin: 8px 0 0;
+      color: var(--pink);
+      font-size: .7rem;
+    }
+
+    .study-plan-progress { margin: 12px 0 8px; }
+
+    .task-list {
+      display: grid;
+      gap: 7px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .task-item {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 9px;
+      border: 1px solid var(--card-border);
+      border-radius: 11px;
+      background: var(--unit-background);
+    }
+
+    .task-checkbox {
+      width: 17px;
+      height: 17px;
+      margin: 0;
+      accent-color: var(--lavender);
+      cursor: pointer;
+    }
+
+    .task-text {
+      overflow-wrap: anywhere;
+      color: var(--cream);
+      font-size: .78rem;
+      text-align: left;
+    }
+
+    .task-item.completed .task-text {
+      color: var(--muted);
+      text-decoration: line-through;
+    }
+
+    .task-delete {
+      min-height: 30px;
+      width: 30px;
+      font-size: .88rem;
+    }
+
+    .task-empty {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: .74rem;
+    }
+
+    .moon-wrap {
+      position: relative;
+      display: grid;
+      width: 132px;
+      height: 132px;
+      margin: 0 auto 30px;
+      place-items: center;
+    }
+
+    body[data-theme="night"] .moon-wrap,
+    body[data-theme="day"] .moon-wrap {
+      border-radius: 50%;
+    }
+
+    .moon {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #fffbe9, #e9d9ff 72%);
+      box-shadow: 0 0 32px rgba(255, 241, 210, .38), 0 0 90px rgba(210, 187, 255, .28);
+      animation: moon-glow 5s ease-in-out infinite;
+    }
+
+    body[data-theme="day"] .moon {
+      background: linear-gradient(145deg, #fff4b0, #ffbd70 78%);
+      box-shadow: 0 0 32px rgba(255, 212, 119, .48), 0 0 90px rgba(255, 185, 122, .35);
+      animation-name: sun-glow;
+    }
+
+    .moon::after {
+      display: block;
+      width: 84px;
+      height: 84px;
+      margin: -9px 0 0 18px;
+      border-radius: 50%;
+      background: #171a3d;
+      content: "";
+    }
+
+    body[data-theme="day"] .moon::after { display: none; }
+
+    .orbit-star {
+      position: absolute;
+      padding: 8px;
+      border: 0;
+      background: transparent;
+      color: #ffe6aa;
+      font-family: inherit;
+      font-size: 25px;
+      line-height: 1;
+      text-shadow: 0 0 8px rgba(255, 230, 170, .95), 0 0 20px rgba(201, 183, 255, .75);
+      animation: star-glow 2.2s ease-in-out infinite alternate;
+      cursor: pointer;
+    }
+
+    .orbit-star.one { top: -2px; right: 11px; }
+    .orbit-star.two {
+      bottom: 12px;
+      left: -2px;
+      color: #e0d1ff;
+      font-size: 18px;
+      animation-delay: -.8s;
+    }
+
+    body[data-theme="day"] .orbit-star {
+      color: #e6a743;
+      text-shadow: 0 0 8px rgba(255, 211, 126, .7);
+    }
+    body[data-theme="day"] .orbit-star.two { color: #ce8a70; }
+
+    .eyebrow {
+      margin: 0 0 13px;
+      color: var(--lavender);
+      font-size: .73rem;
+      font-weight: 700;
+      letter-spacing: .24em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2.8rem, 9vw, 5.5rem);
+      font-weight: 400;
+      letter-spacing: -.055em;
+      line-height: 1.04;
+      text-shadow: 0 5px 32px rgba(8, 11, 32, .34);
+    }
+
+    h1 span {
+      display: block;
+      margin-top: 8px;
+      color: var(--pink);
+      font-style: italic;
+    }
+
+    .intro {
+      max-width: 440px;
+      margin: 24px auto 0;
+      color: var(--muted);
+      font-size: clamp(1rem, 2.5vw, 1.1rem);
+      line-height: 1.8;
+    }
+
+    .note {
+      max-width: 460px;
+      margin: 30px auto 0;
+      padding: 20px 24px;
+      border: 1px solid rgba(231, 222, 255, .14);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, .055);
+      color: #e6e3f3;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.04rem;
+      font-style: italic;
+      line-height: 1.75;
+      backdrop-filter: blur(10px);
+    }
+
+    body[data-theme="day"] .note {
+      border-color: var(--card-border);
+      background: rgba(255, 255, 255, .38);
+      color: #514863;
+    }
+
+    .note b {
+      color: #ffe0c8;
+      font-weight: 400;
+    }
+
+    body[data-theme="day"] .note b { color: #a65c72; }
+
+    .countdown {
+      margin: 0;
+      padding: 21px 20px 19px;
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      background: var(--card-background);
+      backdrop-filter: blur(10px);
+    }
+
+    .countdown h2 {
+      margin: 0;
+      color: var(--cream);
+      font-size: .92rem;
+      font-weight: 600;
+      letter-spacing: .04em;
+    }
+
+    .countdown-date {
+      margin: 7px 0 15px;
+      color: var(--muted);
+      font-size: .78rem;
+    }
+
+    .countdown-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .countdown-unit {
+      padding: 11px 5px 9px;
+      border: 1px solid rgba(231, 222, 255, .1);
+      border-radius: 12px;
+      background: var(--unit-background);
+    }
+
+    .countdown-value {
+      display: block;
+      color: var(--pink);
+      font-variant-numeric: tabular-nums;
+      font-size: clamp(1.15rem, 4vw, 1.5rem);
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .countdown-label {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: .68rem;
+    }
+
+    .pomodoro {
+      padding: 21px 20px 19px;
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      background: var(--card-background);
+      text-align: center;
+      backdrop-filter: blur(10px);
+    }
+
+    .pomodoro h2 {
+      margin: 0;
+      color: var(--cream);
+      font-size: .92rem;
+      font-weight: 600;
+      letter-spacing: .04em;
+    }
+
+    .pomodoro-mode {
+      margin: 15px 0 2px;
+      color: var(--muted);
+      font-size: .82rem;
+    }
+
+    .pomodoro-time {
+      display: block;
+      color: var(--pink);
+      font-variant-numeric: tabular-nums;
+      font-size: clamp(3rem, 7vw, 3.7rem);
+      font-weight: 600;
+      letter-spacing: -.06em;
+      line-height: 1.2;
+    }
+
+    .pomodoro-progress {
+      width: 100%;
+      height: 5px;
+      margin: 13px 0 16px;
+      overflow: hidden;
+      border: 0;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, .12);
+      color: var(--lavender);
+      accent-color: var(--lavender);
+    }
+
+    .pomodoro-progress::-webkit-progress-bar {
+      border-radius: 99px;
+      background: rgba(255, 255, 255, .12);
+    }
+
+    .pomodoro-progress::-webkit-progress-value {
+      border-radius: 99px;
+      background: linear-gradient(90deg, #c9b7ff, #ffc5d4);
+      transition: width .3s ease;
+    }
+
+    .pomodoro-progress::-moz-progress-bar {
+      border-radius: 99px;
+      background: linear-gradient(90deg, #c9b7ff, #ffc5d4);
+    }
+
+    .pomodoro-controls {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+    }
+
+    #pomodoro-break { grid-column: 1 / -1; }
+
+    .pomodoro-settings {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-items: end;
+      gap: 8px;
+      margin-top: 15px;
+      text-align: left;
+    }
+
+    .pomodoro-settings label {
+      display: grid;
+      gap: 6px;
+      color: var(--muted);
+      font-size: .72rem;
+    }
+
+    .pomodoro-settings input {
+      width: 100%;
+      min-height: 42px;
+      padding: 0 11px;
+      border: 1px solid rgba(231, 222, 255, .18);
+      border-radius: 11px;
+      background: rgba(13, 16, 42, .42);
+      color: var(--cream);
+      font: inherit;
+      font-size: .9rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .pomodoro-settings input:focus-visible {
+      outline: 3px solid #fff6e9;
+      outline-offset: 2px;
+    }
+
+    .pomodoro-settings .pomodoro-button {
+      grid-column: 1 / -1;
+      padding: 0 12px;
+    }
+
+    .pomodoro-feedback {
+      grid-column: 1 / -1;
+      min-height: 1em;
+      margin: 0;
+      color: var(--lavender);
+      font-size: .72rem;
+    }
+
+    .pomodoro-button {
+      min-height: 42px;
+      border: 1px solid rgba(231, 222, 255, .18);
+      border-radius: 12px;
+      background: var(--unit-background);
+      color: var(--cream);
+      cursor: pointer;
+      font: inherit;
+      font-size: .85rem;
+      font-weight: 600;
+      transition: background .2s ease, transform .2s ease;
+    }
+
+    .pomodoro-button:hover {
+      transform: translateY(-1px);
+      background: rgba(255, 255, 255, .15);
+    }
+
+    .pomodoro-button:focus-visible {
+      outline: 3px solid #fff6e9;
+      outline-offset: 3px;
+    }
+
+    .pomodoro-button.primary {
+      border-color: transparent;
+      background: linear-gradient(135deg, #f5d9c5, #e7ccff);
+      color: #302746;
+    }
+
+    body[data-theme="day"] .pomodoro-button.primary {
+      background: linear-gradient(135deg, #f9cb9b, #e5c8f3);
+    }
+
+    .pomodoro-sessions {
+      margin: 15px 0 0;
+      color: rgba(218, 219, 238, .72);
+      font-size: .76rem;
+    }
+
+    .wish-button {
+      display: inline-flex;
+      min-height: 52px;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 26px;
+      padding: 0 23px;
+      border: 1px solid rgba(255, 255, 255, .52);
+      border-radius: 999px;
+      background: linear-gradient(135deg, #f5d9c5, #e7ccff);
+      box-shadow: 0 8px 30px rgba(15, 12, 38, .25);
+      color: #302746;
+      cursor: pointer;
+      font: inherit;
+      font-size: .94rem;
+      font-weight: 700;
+      transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+    }
+
+    .wish-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 34px rgba(15, 12, 38, .38);
+      filter: brightness(1.05);
+    }
+
+    .wish-button:focus-visible {
+      outline: 3px solid #fff6e9;
+      outline-offset: 4px;
+    }
+
+    .wish-button:active { transform: translateY(0) scale(.98); }
+
+    .response {
+      min-height: 29px;
+      margin: 16px 0 0;
+      color: #f4d8e6;
+      font-size: .95rem;
+      opacity: 0;
+      transform: translateY(5px);
+      transition: opacity .35s ease, transform .35s ease;
+    }
+
+    .response.visible { opacity: 1; transform: translateY(0); }
+
+    .footer {
+      margin: 28px 0 0;
+      color: rgba(218, 219, 238, .56);
+      font-size: .78rem;
+      letter-spacing: .04em;
+    }
+
+    .bottom-quote {
+      position: fixed;
+      z-index: 3;
+      right: 18px;
+      bottom: 14px;
+      max-width: calc(100vw - 36px);
+      color: rgba(255, 246, 233, .72);
+      font-size: .78rem;
+      font-style: italic;
+      letter-spacing: .03em;
+      text-align: right;
+      text-shadow: 0 2px 8px rgba(17, 20, 48, .25);
+      pointer-events: none;
+    }
+
+    body[data-theme="day"] .footer { color: rgba(67, 58, 83, .68); }
+    body[data-theme="day"] .bottom-quote {
+      color: rgba(67, 58, 83, .78);
+      text-shadow: 0 2px 8px rgba(255, 255, 255, .45);
+    }
+    body[data-theme="day"] .response { color: #9d4e6c; }
+    body[data-theme="day"] .pomodoro-sessions { color: #655f78; }
+
+    .shooting-star {
+      position: fixed;
+      z-index: 2;
+      top: 17%;
+      left: 72%;
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: #fff9e8;
+      box-shadow: 0 0 8px 2px #fff9e8, -54px 0 18px 1px rgba(255, 249, 232, .4);
+      pointer-events: none;
+      animation: shoot .85s ease-out forwards;
+      transform: rotate(-35deg);
+    }
+
+    .night-note {
+      position: fixed;
+      z-index: 30;
+      max-width: min(250px, calc(100vw - 32px));
+      padding: 11px 15px;
+      border: 1px solid rgba(231, 222, 255, .3);
+      border-radius: 14px;
+      background: rgba(34, 34, 70, .94);
+      box-shadow: 0 8px 30px rgba(8, 9, 28, .3), 0 0 24px rgba(201, 183, 255, .15);
+      color: #fff6e9;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: .93rem;
+      line-height: 1.5;
+      text-align: center;
+      pointer-events: none;
+      animation: note-appear 2.8s ease both;
+      backdrop-filter: blur(12px);
+    }
+
+    .night-note::before {
+      display: block;
+      margin-bottom: 3px;
+      color: #ffe8a6;
+      content: "✦";
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.25rem;
+      line-height: 1;
+      text-shadow: 0 0 8px #ffe8a6, 0 0 20px rgba(201, 183, 255, .95);
+      animation: note-star-pulse .9s ease-in-out infinite alternate;
+    }
+
+    .note-sparkle {
+      position: fixed;
+      z-index: 31;
+      color: var(--sparkle-color, #ffe8a6);
+      font-size: var(--sparkle-size, 20px);
+      line-height: 1;
+      text-shadow: 0 0 7px currentColor, 0 0 18px currentColor;
+      pointer-events: none;
+      animation: sparkle-burst .9s ease-out forwards;
+    }
+
+    body[data-theme="day"] .night-note:not(.day-note) { display: none; }
+
+    .day-note {
+      border-color: rgba(224, 145, 163, .38);
+      background: rgba(255, 250, 240, .96);
+      box-shadow: 0 8px 30px rgba(115, 79, 82, .17), 0 0 24px rgba(255, 191, 153, .24);
+      color: #514359;
+    }
+
+    .day-note::before {
+      color: #df7e9d;
+      content: "🌸";
+      font-family: sans-serif;
+      text-shadow: 0 0 10px rgba(255, 181, 196, .75);
+    }
+
+    .day-sparkle {
+      position: fixed;
+      z-index: 31;
+      font-size: var(--deco-size, 24px);
+      line-height: 1;
+      filter: drop-shadow(0 3px 6px rgba(102, 65, 76, .2));
+      pointer-events: none;
+      animation: garden-burst 1.8s ease-out forwards;
+    }
+
+    .night-note-status {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @keyframes twinkle {
+      from { transform: scale(.7); opacity: calc(var(--opacity) * .45); }
+      to { transform: scale(1.35); opacity: var(--opacity); }
+    }
+
+    @keyframes star-glow {
+      from { filter: brightness(.9); }
+      to { filter: brightness(1.5); }
+    }
+
+    @keyframes moon-glow {
+      50% { box-shadow: 0 0 42px rgba(255, 241, 210, .52), 0 0 105px rgba(210, 187, 255, .34); }
+    }
+
+    @keyframes sun-glow {
+      50% { box-shadow: 0 0 46px rgba(255, 212, 119, .64), 0 0 110px rgba(255, 185, 122, .44); }
+    }
+
+    @keyframes orbit { to { transform: rotate(360deg); } }
+    @keyframes arrive {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes shoot {
+      from { opacity: 0; transform: translate(0, 0) rotate(-35deg); }
+      15% { opacity: 1; }
+      to { opacity: 0; transform: translate(-230px, 175px) rotate(-35deg); }
+    }
+    @keyframes note-appear {
+      0% { opacity: 0; transform: translateY(8px) scale(.96); }
+      12%, 78% { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-5px) scale(.98); }
+    }
+    @keyframes note-star-pulse {
+      from { transform: scale(.85) rotate(-8deg); }
+      to { transform: scale(1.15) rotate(8deg); }
+    }
+    @keyframes sparkle-burst {
+      from { opacity: 0; transform: translate(0, 0) scale(.25) rotate(0); }
+      20% { opacity: 1; }
+      to { opacity: 0; transform: translate(var(--sparkle-x), var(--sparkle-y)) scale(1.25) rotate(55deg); }
+    }
+    @keyframes garden-float {
+      from { transform: translateY(0) rotate(-5deg); }
+      to { transform: translateY(-9px) rotate(5deg); }
+    }
+    @keyframes garden-burst {
+      from { opacity: 0; transform: translate(0, 0) scale(.45) rotate(-12deg); }
+      18% { opacity: 1; }
+      to { opacity: 0; transform: translate(var(--deco-x), var(--deco-y)) scale(1.08) rotate(12deg); }
+    }
+
+    @media (max-width: 480px) {
+      .page { padding: 32px 22px; }
+      .moon-wrap { margin-bottom: 23px; transform: scale(.88); }
+      .note { padding: 17px 18px; font-size: 1rem; }
+      .countdown, .pomodoro { padding: 18px 13px 15px; }
+      .countdown-grid { gap: 6px; }
+      .footer { margin-top: 22px; }
+      .bottom-quote { right: 12px; bottom: 10px; font-size: .7rem; }
+    }
+
+    @media (max-width: 820px) {
+      .page { padding: 38px 22px; }
+      .layout {
+        min-height: auto;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .menu-toggle { top: 12px; left: 12px; }
+      .study-menu { padding: 16px 14px 24px; }
+      .page { padding-top: 72px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="sky" id="sky" aria-hidden="true"></div>
+  <div class="day-garden">
+    <button class="garden-decoration one" type="button" aria-label="Günün çiçek notunu göster">🌷</button>
+    <button class="garden-decoration two" type="button" aria-label="Günün kedi notunu göster">🐈</button>
+    <button class="garden-decoration three" type="button" aria-label="Günün çiçek notunu göster">🌼</button>
+    <button class="garden-decoration four" type="button" aria-label="Günün kedi notunu göster">🐱</button>
+    <button class="garden-decoration five" type="button" aria-label="Günün çiçek notunu göster">🌸</button>
+    <button class="garden-decoration six" type="button" aria-label="Günün çiçek notunu göster">🌺</button>
+  </div>
+  <button class="menu-toggle" id="menu-toggle" type="button" aria-controls="study-menu" aria-expanded="false">
+    <span aria-hidden="true">☰</span> Ders menüsü
+  </button>
+  <button class="menu-backdrop" id="menu-backdrop" type="button" aria-label="Ders menüsünü kapat" aria-hidden="true" tabindex="-1"></button>
+  <p class="bottom-quote">Azimli sıçan duvarı deler.</p>
+  <main class="page">
+    <div class="layout">
+      <section class="greeting" aria-labelledby="greeting-title">
+        <div class="moon-wrap">
+          <button class="orbit-star one" type="button" aria-label="Gece notunu göster">✦</button>
+          <button class="orbit-star two" type="button" aria-label="Gece notunu göster">✧</button>
+          <div class="moon" aria-hidden="true"></div>
+        </div>
+        <p class="eyebrow" id="greeting-eyebrow">Günün en güzel vedası</p>
+        <h1 id="greeting-title">İyi geceler,<span>Buse</span></h1>
+        <p class="intro" id="greeting-intro">Bugünün yorgunluğu geride kalsın. Bu gece yıldızlar sana en güzel rüyaları fısıldasın.</p>
+        <div class="note">
+          <span id="greeting-note">“Gözlerini kapat ve gökyüzündeki en parlak yıldızı bul…<br>
+          <b>Bu gece senin için parlıyor.”</b></span>
+        </div>
+        <button class="wish-button" id="wish-button" type="button">
+          <span aria-hidden="true">✨</span> Bir dilek tut
+        </button>
+        <p class="response" id="response" aria-live="polite"></p>
+        <p class="night-note-status" id="night-note-status" role="status" aria-live="polite"></p>
+        <p class="footer">Tatlı rüyalar ve huzurlu bir sabah 🌙</p>
+      </section>
+      <aside class="study-menu" id="study-menu" aria-label="Ders araçları" aria-hidden="true" inert>
+        <div class="menu-header">
+          <p class="menu-heading">Ders köşesi</p>
+          <button class="menu-close" id="menu-close" type="button" aria-label="Ders menüsünü kapat">×</button>
+        </div>
+        <section class="personal-panel" aria-labelledby="personal-panel-title">
+          <h2 id="personal-panel-title">Bana özel</h2>
+          <form id="personal-pin-form">
+            <p class="personal-lock-message" id="personal-lock-message" role="status" aria-live="polite"></p>
+            <label for="personal-pin">PIN (6–12 rakam)
+              <input id="personal-pin" type="password" inputmode="numeric" pattern="[0-9]{6,12}" minlength="6" maxlength="12" autocomplete="current-password" required>
+            </label>
+            <label id="personal-pin-confirm-label" for="personal-pin-confirm" hidden>PIN’i tekrar gir
+              <input id="personal-pin-confirm" type="password" inputmode="numeric" pattern="[0-9]{6,12}" minlength="6" maxlength="12" autocomplete="new-password">
+            </label>
+            <button class="personal-pin-button" id="personal-pin-submit" type="submit">Kilidi aç</button>
+          </form>
+          <div id="personal-settings" hidden inert>
+            <label for="theme-mode">
+              Tema tercihi
+              <select id="theme-mode">
+                <option value="auto">Otomatik (06.00–18.00)</option>
+                <option value="day">Her zaman gündüz</option>
+                <option value="night">Her zaman gece</option>
+              </select>
+            </label>
+            <p class="theme-feedback" id="theme-feedback" aria-live="polite"></p>
+            <button class="personal-pin-button" id="personal-lock-now" type="button">Bana özel kısmı kilitle</button>
+          </div>
+        </section>
+        <section class="daily-motivation" aria-labelledby="daily-motivation-title">
+          <h2 id="daily-motivation-title">Günün motivasyonu</h2>
+          <p id="daily-motivation-message" aria-live="polite"></p>
+        </section>
+        <section class="ambience-panel" aria-labelledby="ambience-title">
+          <h2 id="ambience-title">Ambiyans ve müzik</h2>
+          <label for="ambience-sound">
+            Ses
+            <select id="ambience-sound">
+              <option value="rain">Hafif yağmur</option>
+              <option value="breeze">Sakin esinti</option>
+            </select>
+          </label>
+          <label class="ambience-volume-row" for="ambience-volume">
+            <span>Ses seviyesi</span>
+            <input id="ambience-volume" type="range" min="0" max="100" value="20">
+            <output id="ambience-volume-value" for="ambience-volume">20%</output>
+          </label>
+          <button class="ambience-button" id="ambience-toggle" type="button" aria-pressed="false">▶ Ambiyansı başlat</button>
+          <p class="ambience-feedback" id="ambience-feedback" aria-live="polite">Ses kapalı. Başlatmak için dokun.</p>
+        </section>
+        <section class="study-plan" aria-labelledby="study-plan-title">
+          <h2 id="study-plan-title">Bugünün ders planı</h2>
+          <p class="study-plan-date" id="study-plan-date"></p>
+          <div class="streak" aria-live="polite">
+            <span class="streak-icon" aria-hidden="true">🔥</span>
+            <div>
+              <div class="streak-count" id="streak-count">0 gün</div>
+              <p class="streak-hint" id="streak-hint"></p>
+            </div>
+          </div>
+          <form class="plan-form" id="plan-form">
+            <label class="visually-hidden" for="plan-task">Yeni ders görevi</label>
+            <input id="plan-task" type="text" maxlength="100" placeholder="Örn. Matematik testini çöz" required>
+            <button class="plan-add" type="submit">Ekle</button>
+          </form>
+          <p class="plan-feedback" id="plan-feedback" aria-live="polite"></p>
+          <p class="study-plan-progress" id="study-plan-progress"></p>
+          <ul class="task-list" id="task-list" aria-label="Bugünün ders görevleri"></ul>
+          <p class="task-empty" id="task-empty">Bugün için henüz görev eklenmedi.</p>
+        </section>
+        <section class="countdown" aria-labelledby="countdown-title">
+          <h2 id="countdown-title">YKS’ye kalan süre</h2>
+          <p class="countdown-date" id="countdown-date"></p>
+          <div class="countdown-grid" role="timer" aria-label="YKS sınavına kalan süre">
+            <div class="countdown-unit"><span class="countdown-value" id="days">---</span><span class="countdown-label">gün</span></div>
+            <div class="countdown-unit"><span class="countdown-value" id="hours">--</span><span class="countdown-label">saat</span></div>
+            <div class="countdown-unit"><span class="countdown-value" id="minutes">--</span><span class="countdown-label">dakika</span></div>
+            <div class="countdown-unit"><span class="countdown-value" id="seconds">--</span><span class="countdown-label">saniye</span></div>
+          </div>
+        </section>
+        <section class="pomodoro" aria-labelledby="pomodoro-title">
+          <h2 id="pomodoro-title">Pomodoro</h2>
+          <p class="pomodoro-mode" id="pomodoro-mode">Odaklanma zamanı</p>
+          <time class="pomodoro-time" id="pomodoro-time" datetime="PT25M" role="timer" aria-label="25 dakika 00 saniye">25:00</time>
+          <progress class="pomodoro-progress" id="pomodoro-progress" max="1500" value="1500" aria-label="Pomodoro oturumu ilerlemesi"></progress>
+          <div class="pomodoro-controls">
+            <button class="pomodoro-button primary" id="pomodoro-toggle" type="button">Başlat</button>
+            <button class="pomodoro-button" id="pomodoro-reset" type="button">Sıfırla</button>
+            <button class="pomodoro-button" id="pomodoro-break" type="button">Molaya geç</button>
+          </div>
+          <form class="pomodoro-settings" id="pomodoro-settings">
+            <label for="pomodoro-duration">
+              Odak süresi (1–180 dk)
+              <input id="pomodoro-duration" type="number" min="1" max="180" step="1" value="25" required>
+            </label>
+            <label for="pomodoro-break-duration">
+              Mola süresi (1–60 dk)
+              <input id="pomodoro-break-duration" type="number" min="1" max="60" step="1" value="5" required>
+            </label>
+            <button class="pomodoro-button" type="submit">Süreleri uygula</button>
+            <p class="pomodoro-feedback" id="pomodoro-feedback" aria-live="polite"></p>
+          </form>
+          <p class="pomodoro-sessions" id="pomodoro-sessions" aria-live="polite">Tamamlanan odak: 0</p>
+        </section>
+      </aside>
+    </div>
+  </main>
+  <script>
+    const sky = document.querySelector("#sky");
+    const button = document.querySelector("#wish-button");
+    const response = document.querySelector("#response");
+    const greeting = document.querySelector(".greeting");
+    const dayGarden = document.querySelector(".day-garden");
+    const nightNoteStatus = document.querySelector("#night-note-status");
+    const pomodoroTime = document.querySelector("#pomodoro-time");
+    const pomodoroMode = document.querySelector("#pomodoro-mode");
+    const pomodoroProgress = document.querySelector("#pomodoro-progress");
+    const pomodoroToggle = document.querySelector("#pomodoro-toggle");
+    const pomodoroSessions = document.querySelector("#pomodoro-sessions");
+    const studyMenu = document.querySelector("#study-menu");
+    const menuToggle = document.querySelector("#menu-toggle");
+    const menuClose = document.querySelector("#menu-close");
+    const menuBackdrop = document.querySelector("#menu-backdrop");
+    const dailyMotivationMessage = document.querySelector("#daily-motivation-message");
+    const ambienceSoundSelect = document.querySelector("#ambience-sound");
+    const ambienceVolume = document.querySelector("#ambience-volume");
+    const ambienceVolumeValue = document.querySelector("#ambience-volume-value");
+    const ambienceToggle = document.querySelector("#ambience-toggle");
+    const ambienceFeedback = document.querySelector("#ambience-feedback");
+    let ambienceContext;
+    let ambienceSource;
+    let ambienceGain;
+    let workDuration = 25 * 60;
+    let shortBreakDuration = 5 * 60;
+    const longBreakDuration = 15 * 60;
+    let pomodoroModeKey = "work";
+    let pomodoroRemaining = workDuration;
+    let pomodoroDeadline = 0;
+    let completedSessions = 0;
+    let pomodoroInterval;
+    const themeModeSelect = document.querySelector("#theme-mode");
+    const themeFeedback = document.querySelector("#theme-feedback");
+    const personalPinForm = document.querySelector("#personal-pin-form");
+    const personalPinInput = document.querySelector("#personal-pin");
+    const personalPinConfirmInput = document.querySelector("#personal-pin-confirm");
+    const personalPinConfirmLabel = document.querySelector("#personal-pin-confirm-label");
+    const personalPinSubmit = document.querySelector("#personal-pin-submit");
+    const personalLockMessage = document.querySelector("#personal-lock-message");
+    const personalSettings = document.querySelector("#personal-settings");
+    const personalLockNow = document.querySelector("#personal-lock-now");
+    const planForm = document.querySelector("#plan-form");
+    const taskInput = document.querySelector("#plan-task");
+    const taskList = document.querySelector("#task-list");
+    const planFeedback = document.querySelector("#plan-feedback");
+    const studyPlanByDate = {};
+    let themePreference = "auto";
+    let personalPinCredential;
+    let personalPinMode = "setup";
+    let canPersistStudyPlan = true;
+    let currentPlanDate = getLocalDateKey();
+
+    function encodeBytes(bytes) {
+      return btoa(String.fromCharCode(...bytes));
+    }
+
+    function decodeBytes(value) {
+      return Uint8Array.from(atob(value), (character) => character.charCodeAt(0));
+    }
+
+    async function derivePersonalPinHash(pin, salt, iterations) {
+      const keyMaterial = await window.crypto.subtle.importKey(
+        "raw",
+        new TextEncoder().encode(pin),
+        "PBKDF2",
+        false,
+        ["deriveBits"]
+      );
+      const hash = await window.crypto.subtle.deriveBits(
+        { name: "PBKDF2", salt, iterations, hash: "SHA-256" },
+        keyMaterial,
+        256
+      );
+      return new Uint8Array(hash);
+    }
+
+    function setPersonalSettingsUnlocked(isUnlocked) {
+      personalSettings.hidden = !isUnlocked;
+      personalSettings.inert = !isUnlocked;
+      personalPinForm.hidden = isUnlocked;
+      personalPinInput.value = "";
+      personalPinConfirmInput.value = "";
+    }
+
+    function initializePersonalPin() {
+      if (!window.isSecureContext || !window.crypto?.subtle) {
+        personalLockMessage.textContent = "PIN kilidi için bu siteyi HTTPS veya localhost üzerinden açmalısın.";
+        personalPinForm.hidden = true;
+        return;
+      }
+
+      try {
+        const storedCredential = window.localStorage.getItem("buse-personal-pin");
+        if (storedCredential) {
+          const parsedCredential = JSON.parse(storedCredential);
+          if (parsedCredential?.version !== 1
+            || typeof parsedCredential.salt !== "string"
+            || typeof parsedCredential.hash !== "string"
+            || !Number.isInteger(parsedCredential.iterations)
+            || parsedCredential.iterations < 100_000) {
+            throw new Error("Kayıtlı PIN bilgisi geçersiz.");
+          }
+          personalPinCredential = parsedCredential;
+          personalPinMode = "unlock";
+          personalLockMessage.textContent = "Bana özel ayarları açmak için bu cihazdaki PIN’ini gir.";
+          personalPinConfirmLabel.hidden = true;
+          personalPinConfirmInput.required = false;
+          personalPinInput.autocomplete = "current-password";
+          personalPinSubmit.textContent = "Kilidi aç";
+          return;
+        }
+
+        personalLockMessage.textContent =
+          "İlk kullanımda 6–12 rakamlı bir PIN oluştur. PIN yalnızca bu cihazın tarayıcısında saklanır.";
+        personalPinConfirmLabel.hidden = false;
+        personalPinConfirmInput.required = true;
+        personalPinInput.autocomplete = "new-password";
+        personalPinSubmit.textContent = "PIN oluştur";
+      } catch (error) {
+        personalLockMessage.textContent = `PIN bilgisi okunamadı: ${error.message}`;
+        personalPinForm.hidden = true;
+      }
+    }
+
+    personalPinForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (personalPinSubmit.disabled) return;
+      personalPinInput.setCustomValidity("");
+      personalPinConfirmInput.setCustomValidity("");
+      if (!/^\d{6,12}$/.test(personalPinInput.value)) {
+        personalPinInput.setCustomValidity("PIN 6–12 rakamdan oluşmalı.");
+        personalPinInput.reportValidity();
+        return;
+      }
+
+      personalPinSubmit.disabled = true;
+      try {
+        if (personalPinMode === "setup") {
+          if (personalPinInput.value !== personalPinConfirmInput.value) {
+            personalPinConfirmInput.setCustomValidity("PIN’ler eşleşmiyor.");
+            personalPinConfirmInput.reportValidity();
+            return;
+          }
+          const salt = window.crypto.getRandomValues(new Uint8Array(16));
+          const iterations = 180_000;
+          const hash = await derivePersonalPinHash(personalPinInput.value, salt, iterations);
+          const credential = {
+            version: 1,
+            salt: encodeBytes(salt),
+            hash: encodeBytes(hash),
+            iterations
+          };
+          window.localStorage.setItem("buse-personal-pin", JSON.stringify(credential));
+          personalPinCredential = credential;
+          personalPinMode = "unlock";
+        } else {
+          const candidateHash = await derivePersonalPinHash(
+            personalPinInput.value,
+            decodeBytes(personalPinCredential.salt),
+            personalPinCredential.iterations
+          );
+          const expectedHash = decodeBytes(personalPinCredential.hash);
+          if (candidateHash.length !== expectedHash.length
+            || candidateHash.some((value, index) => value !== expectedHash[index])) {
+            personalLockMessage.textContent = "PIN doğru değil. Tekrar dene.";
+            personalPinInput.value = "";
+            personalPinInput.focus();
+            return;
+          }
+        }
+
+        setPersonalSettingsUnlocked(true);
+        personalLockMessage.textContent = "";
+      } catch (error) {
+        personalLockMessage.textContent = `PIN işlemi tamamlanamadı: ${error.message}`;
+      } finally {
+        personalPinSubmit.disabled = false;
+      }
+    });
+
+    personalPinInput.addEventListener("input", () => personalPinInput.setCustomValidity(""));
+    personalPinConfirmInput.addEventListener("input", () => personalPinConfirmInput.setCustomValidity(""));
+    personalLockNow.addEventListener("click", () => {
+      setPersonalSettingsUnlocked(false);
+      personalLockMessage.textContent = "Bana özel ayarlar kilitlendi.";
+      personalPinInput.focus();
+    });
+    initializePersonalPin();
+
+    function updateAmbienceSelection() {
+      ambienceToggle.textContent = "▶ Ambiyansı başlat";
+      ambienceToggle.setAttribute("aria-pressed", "false");
+      ambienceFeedback.textContent = "Ses kapalı. Başlatmak için dokun.";
+    }
+
+    function updateAmbienceVolume() {
+      const volume = Number(ambienceVolume.value);
+      ambienceVolumeValue.textContent = `${volume}%`;
+      if (ambienceGain && ambienceContext) {
+        ambienceGain.gain.setTargetAtTime(
+          volume / 100 * .12,
+          ambienceContext.currentTime,
+          .08
+        );
+      }
+    }
+
+    async function startAmbience() {
+      const AudioContextConstructor = window.AudioContext;
+      if (!AudioContextConstructor) {
+        ambienceFeedback.textContent = "Bu tarayıcı ambiyans sesini desteklemiyor.";
+        return;
+      }
+
+      let context;
+      try {
+        context = new AudioContextConstructor();
+        await context.resume();
+        const buffer = context.createBuffer(1, context.sampleRate * 3, context.sampleRate);
+        const samples = buffer.getChannelData(0);
+        for (let index = 0; index < samples.length; index += 1) {
+          samples[index] = Math.random() * 2 - 1;
+        }
+
+        const source = context.createBufferSource();
+        source.buffer = buffer;
+        source.loop = true;
+        const filter = context.createBiquadFilter();
+        filter.type = "lowpass";
+        filter.frequency.value = ambienceSoundSelect.value === "rain" ? 3200 : 520;
+        filter.Q.value = .45;
+        const gain = context.createGain();
+        gain.gain.setValueAtTime(0, context.currentTime);
+        gain.gain.linearRampToValueAtTime(Number(ambienceVolume.value) / 100 * .12, context.currentTime + .7);
+        source.connect(filter);
+        filter.connect(gain);
+        gain.connect(context.destination);
+        source.start();
+
+        ambienceContext = context;
+        ambienceSource = source;
+        ambienceGain = gain;
+        ambienceSoundSelect.disabled = true;
+        ambienceToggle.textContent = "■ Ambiyansı durdur";
+        ambienceToggle.setAttribute("aria-pressed", "true");
+        ambienceFeedback.textContent = ambienceSoundSelect.value === "rain"
+          ? "Hafif yağmur sesi çalıyor."
+          : "Sakin esinti sesi çalıyor.";
+      } catch (error) {
+        if (context && context.state !== "closed") {
+          try {
+            await context.close();
+          } catch (closeError) {
+            ambienceFeedback.textContent = `Ambiyans başlatılamadı: ${error.message} Ses kaynağı kapatılamadı: ${closeError.message}`;
+            return;
+          }
+        }
+        ambienceFeedback.textContent = `Ambiyans başlatılamadı: ${error.message}`;
+      }
+    }
+
+    function stopAmbience() {
+      if (!ambienceContext) return;
+      ambienceSource.stop();
+      ambienceSource.disconnect();
+      const context = ambienceContext;
+      ambienceContext = undefined;
+      ambienceSource = undefined;
+      ambienceGain = undefined;
+      ambienceSoundSelect.disabled = false;
+      updateAmbienceSelection();
+      context.close().catch((error) => {
+        ambienceFeedback.textContent = `Ses kapatılırken sorun oluştu: ${error.message}`;
+      });
+    }
+
+    ambienceVolume.addEventListener("input", updateAmbienceVolume);
+    ambienceToggle.addEventListener("click", () => {
+      if (ambienceContext) {
+        stopAmbience();
+      } else {
+        void startAmbience();
+      }
+    });
+
+    function setStudyMenuOpen(isOpen) {
+      studyMenu.classList.toggle("open", isOpen);
+      menuBackdrop.classList.toggle("open", isOpen);
+      studyMenu.setAttribute("aria-hidden", String(!isOpen));
+      studyMenu.inert = !isOpen;
+      menuBackdrop.setAttribute("aria-hidden", String(!isOpen));
+      greeting.inert = isOpen;
+      menuToggle.setAttribute("aria-expanded", String(isOpen));
+
+      if (isOpen) {
+        window.setTimeout(() => menuClose.focus(), 0);
+      } else {
+        menuToggle.focus();
+      }
+    }
+
+    menuToggle.addEventListener("click", () => {
+      setStudyMenuOpen(!studyMenu.classList.contains("open"));
+    });
+    menuClose.addEventListener("click", () => setStudyMenuOpen(false));
+    menuBackdrop.addEventListener("click", () => setStudyMenuOpen(false));
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && studyMenu.classList.contains("open")) {
+        setStudyMenuOpen(false);
+        return;
+      }
+
+      if (event.key === "Tab" && studyMenu.classList.contains("open")) {
+        const focusable = studyMenu.querySelectorAll(
+          'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        );
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
+    });
+
+    function getLocalDateKey(date = new Date()) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+
+    function loadStudyPlan() {
+      try {
+        const storedPlan = window.localStorage.getItem("buse-study-plan");
+        if (!storedPlan) return;
+
+        const parsedPlan = JSON.parse(storedPlan);
+        if (!parsedPlan || typeof parsedPlan !== "object" || Array.isArray(parsedPlan)) {
+          throw new Error("Ders planı biçimi geçersiz.");
+        }
+
+        for (const [date, tasks] of Object.entries(parsedPlan)) {
+          if (!isValidPlanDate(date) || !Array.isArray(tasks)) continue;
+          studyPlanByDate[date] = tasks
+            .filter((task) => task && typeof task.id === "string"
+              && typeof task.text === "string" && typeof task.done === "boolean")
+            .map((task) => ({ id: task.id, text: task.text.slice(0, 100), done: task.done }));
+        }
+      } catch (error) {
+        canPersistStudyPlan = false;
+        planFeedback.textContent = "Ders planı okunamadı; bu oturumdaki değişiklikler kaydedilemez.";
+      }
+    }
+
+    function saveStudyPlan() {
+      if (!canPersistStudyPlan) return;
+      try {
+        window.localStorage.setItem("buse-study-plan", JSON.stringify(studyPlanByDate));
+        planFeedback.textContent = "";
+      } catch (error) {
+        canPersistStudyPlan = false;
+        planFeedback.textContent = "Ders planı tarayıcıya kaydedilemedi.";
+      }
+    }
+
+    function isValidPlanDate(date) {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return false;
+      const [year, month, day] = date.split("-").map(Number);
+      const parsedDate = new Date(year, month - 1, day);
+      return parsedDate.getFullYear() === year
+        && parsedDate.getMonth() === month - 1
+        && parsedDate.getDate() === day;
+    }
+
+    function getCompletedStudyDates() {
+      return new Set(Object.entries(studyPlanByDate)
+        .filter(([, tasks]) => tasks.some((task) => task.done))
+        .map(([date]) => date));
+    }
+
+    function updateStudyStreak() {
+      const completedDates = getCompletedStudyDates();
+      const today = new Date();
+      const yesterday = new Date(today);
+      yesterday.setDate(yesterday.getDate() - 1);
+      let date = completedDates.has(currentPlanDate)
+        ? today
+        : completedDates.has(getLocalDateKey(yesterday)) ? yesterday : null;
+      let streakLength = 0;
+
+      while (date && completedDates.has(getLocalDateKey(date))) {
+        streakLength += 1;
+        date.setDate(date.getDate() - 1);
+      }
+
+      document.querySelector("#streak-count").textContent =
+        `${streakLength} gün`;
+      document.querySelector("#streak-hint").textContent = completedDates.has(currentPlanDate)
+        ? "Bugünkü hedefe ulaştın. Harika!"
+        : "Bir görevi tamamlayıp serini sürdür.";
+    }
+
+    function renderStudyPlan() {
+      const [year, month, day] = currentPlanDate.split("-").map(Number);
+      const localDate = new Date(year, month - 1, day);
+      document.querySelector("#study-plan-date").textContent =
+        localDate.toLocaleDateString("tr-TR", { weekday: "long", day: "numeric", month: "long" });
+
+      const tasks = studyPlanByDate[currentPlanDate] || [];
+      const completedCount = tasks.filter((task) => task.done).length;
+      document.querySelector("#study-plan-progress").textContent = tasks.length
+        ? `${completedCount} / ${tasks.length} görev tamamlandı`
+        : "";
+      document.querySelector("#task-empty").hidden = tasks.length > 0;
+      taskList.replaceChildren();
+
+      for (const task of tasks) {
+        const item = document.createElement("li");
+        item.className = task.done ? "task-item completed" : "task-item";
+
+        const checkbox = document.createElement("input");
+        checkbox.className = "task-checkbox";
+        checkbox.type = "checkbox";
+        checkbox.checked = task.done;
+        checkbox.setAttribute("aria-label", `${task.text} tamamlandı`);
+        checkbox.addEventListener("change", () => {
+          task.done = checkbox.checked;
+          saveStudyPlan();
+          renderStudyPlan();
+        });
+
+        const text = document.createElement("span");
+        text.className = "task-text";
+        text.textContent = task.text;
+
+        const removeButton = document.createElement("button");
+        removeButton.className = "task-delete";
+        removeButton.type = "button";
+        removeButton.textContent = "×";
+        removeButton.setAttribute("aria-label", `${task.text} görevini sil`);
+        removeButton.addEventListener("click", () => {
+          studyPlanByDate[currentPlanDate] = tasks.filter((itemTask) => itemTask.id !== task.id);
+          saveStudyPlan();
+          renderStudyPlan();
+        });
+
+        item.append(checkbox, text, removeButton);
+        taskList.append(item);
+      }
+
+      updateStudyStreak();
+    }
+
+    function syncStudyPlanDate() {
+      const today = getLocalDateKey();
+      if (today === currentPlanDate) return;
+      currentPlanDate = today;
+      renderStudyPlan();
+    }
+
+    planForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const text = taskInput.value.trim();
+      if (!text) {
+        taskInput.setCustomValidity("Lütfen bir ders görevi yaz.");
+        taskInput.reportValidity();
+        return;
+      }
+      taskInput.setCustomValidity("");
+      const tasks = studyPlanByDate[currentPlanDate] || [];
+      tasks.push({ id: `${Date.now()}-${Math.random().toString(36).slice(2)}`, text, done: false });
+      studyPlanByDate[currentPlanDate] = tasks;
+      saveStudyPlan();
+      renderStudyPlan();
+      taskInput.value = "";
+      taskInput.focus();
+    });
+    taskInput.addEventListener("input", () => taskInput.setCustomValidity(""));
+
+    loadStudyPlan();
+    renderStudyPlan();
+    window.setInterval(syncStudyPlanDate, 60_000);
+
+    const dayMotivations = [
+      "Her çözdüğün soru, hemşirelik hayaline attığın bir adım. Bugün de kendine inan! 🌱",
+      "YKS yolunda gösterdiğin emek, bir gün şefkatli bir hemşire olma hayaline yaklaştırıyor. ☀️",
+      "Bugün öğrendiğin her konu, gelecekte insanlara yardım edeceğin güne hazırlık. 🌼",
+      "Hemşirelik hayalin emeklerine değer. Küçük adımlarla devam et, Buse! ✨",
+      "Bir soruda zorlanman yolundan döndüğün anlamına gelmez. Hayaline doğru devam et! 🐾",
+      "Azimle çalış, kendine güven; geleceğin hemşiresi olmak için bugün de bir adım at. 🌷",
+      "YKS’de her gün yeni bir başlangıç. Hemşirelik hedefine doğru elinden geleni yap! 💛"
+    ];
+    const nightMotivations = [
+      "Bugün YKS ve hemşirelik hayalin için emek verdin. Şimdi dinlen; yarın yeni bir adım. 🌙",
+      "Geleceğin hemşiresi olma hayaline bugün biraz daha yaklaştın. Kendinle gurur duy! ✨",
+      "Her küçük çalışma, hemşirelik hedefinin yolunu aydınlatıyor. Huzurla dinlen, Buse. 💜",
+      "Hemşirelik hayalin sabrın ve emeğinle büyüyor. Güzelce uyu, yarın devam edersin. ⭐",
+      "YKS yolunda bugün elinden geleni yaptın. Şefkatli bir hemşire olma hayalin için yarın yeni bir fırsat. 🌠",
+      "Kendine inan; bugünkü emeğin seni hemşirelik hedefine taşıyan adımlardan biri. 🤍",
+      "Dinlenmek de YKS hazırlığının parçası. Hemşirelik hayalin için yarın taze bir başlangıç. 🌙"
+    ];
+
+    function updateDailyMotivation(date = new Date()) {
+      const [year, month, day] = getLocalDateKey(date).split("-").map(Number);
+      const dayNumber = Math.floor(Date.UTC(year, month - 1, day) / 86_400_000);
+      const messages = document.body.dataset.theme === "day" ? dayMotivations : nightMotivations;
+      dailyMotivationMessage.textContent = messages[dayNumber % messages.length];
+    }
+
+    function updateTheme(date = new Date()) {
+      const hour = date.getHours();
+      const isDay = themePreference === "day"
+        || (themePreference === "auto" && hour >= 6 && hour < 18);
+      const theme = isDay ? "day" : "night";
+      if (document.body.dataset.theme === theme) return;
+
+      document.body.dataset.theme = theme;
+      dayGarden.inert = !isDay;
+      document.documentElement.style.colorScheme = isDay ? "light" : "dark";
+      document.querySelector('meta[name="theme-color"]').content = isDay ? "#f8e8d9" : "#10152f";
+      document.title = isDay ? "Gündüzler, Buse ☀️" : "İyi Geceler, Buse ✨";
+      document.querySelectorAll(".orbit-star").forEach((star) => {
+        star.setAttribute("aria-label", isDay ? "Günün notunu göster" : "Gece notunu göster");
+      });
+      document.querySelector("#greeting-eyebrow").textContent = isDay
+        ? hour < 12 ? "Yeni bir gün, yeni bir başlangıç" : "Günün güzel anları seninle olsun"
+        : "Günün en güzel vedası";
+      document.querySelector("#greeting-title").firstChild.textContent = isDay
+        ? hour < 12 ? "Günaydın," : "İyi günler,"
+        : "İyi geceler,";
+      document.querySelector("#greeting-intro").textContent = isDay
+        ? "Yeni gün, yeni umutlar… Bugün de kendine inan; güzel şeyler seni bekliyor."
+        : "Bugünün yorgunluğu geride kalsın. Bu gece yıldızlar sana en güzel rüyaları fısıldasın.";
+      document.querySelector("#greeting-note").innerHTML = isDay
+        ? "Küçük adımlar da seni hayallerine yaklaştırır…<br><b>Bugün kendinle gurur duyacağın bir gün olsun.</b>"
+        : "“Gözlerini kapat ve gökyüzündeki en parlak yıldızı bul…<br><b>Bu gece senin için parlıyor.”</b>";
+      button.innerHTML = isDay
+        ? '<span aria-hidden="true">☀️</span> Güne güzel başla'
+        : '<span aria-hidden="true">✨</span> Bir dilek tut';
+      response.classList.remove("visible");
+      response.textContent = "";
+      document.querySelector(".footer").textContent = isDay
+        ? "Güzel bir gün ve bolca başarı ☀️"
+        : "Tatlı rüyalar ve huzurlu bir sabah 🌙";
+      updateDailyMotivation(date);
+    }
+
+    try {
+      const savedThemePreference = window.localStorage.getItem("buse-theme-preference");
+      if (savedThemePreference === "auto" || savedThemePreference === "day" || savedThemePreference === "night") {
+        themePreference = savedThemePreference;
+      }
+    } catch (error) {
+      themeFeedback.textContent = "Tema seçimi bu tarayıcıda kaydedilemedi.";
+    }
+    themeModeSelect.value = themePreference;
+    themeModeSelect.addEventListener("change", () => {
+      themePreference = themeModeSelect.value;
+      updateTheme();
+      themeFeedback.textContent = themePreference === "auto"
+        ? "Tema 06.00–18.00 saatlerine göre değişir."
+        : `Sabit ${themePreference === "day" ? "gündüz" : "gece"} teması seçildi.`;
+      try {
+        window.localStorage.setItem("buse-theme-preference", themePreference);
+      } catch (error) {
+        themeFeedback.textContent += " Bu seçim tarayıcıda kaydedilemedi.";
+      }
+    });
+
+    const now = new Date();
+    let examDate = new Date(now.getFullYear(), 5, 20);
+    if (examDate <= now) {
+      examDate = new Date(now.getFullYear() + 1, 5, 20);
+    }
+    document.querySelector("#countdown-date").textContent =
+      `20 Haziran ${examDate.getFullYear()} · Şimdiden başarılar, Buse!`;
+
+    function updateCountdown() {
+      const remaining = Math.max(0, examDate.getTime() - Date.now());
+      const days = Math.floor(remaining / 86_400_000);
+      const hours = Math.floor((remaining % 86_400_000) / 3_600_000);
+      const minutes = Math.floor((remaining % 3_600_000) / 60_000);
+      const seconds = Math.floor((remaining % 60_000) / 1_000);
+
+      document.querySelector("#days").textContent = String(days);
+      document.querySelector("#hours").textContent = String(hours).padStart(2, "0");
+      document.querySelector("#minutes").textContent = String(minutes).padStart(2, "0");
+      document.querySelector("#seconds").textContent = String(seconds).padStart(2, "0");
+      document.querySelector(".countdown-grid").setAttribute(
+        "aria-label",
+        `YKS sınavına ${days} gün ${hours} saat ${minutes} dakika ${seconds} saniye kaldı`
+      );
+    }
+
+    function renderPomodoro() {
+      const minutes = Math.floor(pomodoroRemaining / 60);
+      const seconds = pomodoroRemaining % 60;
+      const display = `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+      pomodoroTime.textContent = display;
+      pomodoroTime.dateTime = `PT${minutes}M${seconds}S`;
+      pomodoroTime.setAttribute("aria-label", `${minutes} dakika ${String(seconds).padStart(2, "0")} saniye`);
+      pomodoroProgress.max = pomodoroModeKey === "work"
+        ? workDuration
+        : pomodoroModeKey === "longBreak" ? longBreakDuration : shortBreakDuration;
+      pomodoroProgress.value = pomodoroRemaining;
+    }
+
+    function switchPomodoroMode(modeKey) {
+      pomodoroModeKey = modeKey;
+      pomodoroRemaining = modeKey === "work"
+        ? workDuration
+        : modeKey === "longBreak" ? longBreakDuration : shortBreakDuration;
+      pomodoroMode.textContent = modeKey === "work"
+        ? "Odaklanma zamanı"
+        : modeKey === "longBreak" ? "Uzun mola zamanı" : "Kısa mola zamanı";
+      renderPomodoro();
+    }
+
+    function stopPomodoro() {
+      window.clearInterval(pomodoroInterval);
+      pomodoroInterval = undefined;
+      pomodoroToggle.textContent = "Başlat";
+    }
+
+    function startPomodoro() {
+      pomodoroDeadline = Date.now() + pomodoroRemaining * 1000;
+      pomodoroToggle.textContent = "Duraklat";
+      pomodoroInterval = window.setInterval(tickPomodoro, 250);
+    }
+
+    function tickPomodoro() {
+      pomodoroRemaining = Math.max(0, Math.ceil((pomodoroDeadline - Date.now()) / 1000));
+      renderPomodoro();
+
+      if (pomodoroRemaining === 0) {
+        stopPomodoro();
+        if (pomodoroModeKey === "work") {
+          completedSessions += 1;
+          pomodoroSessions.textContent = `Tamamlanan odak: ${completedSessions}`;
+          switchPomodoroMode(completedSessions % 4 === 0 ? "longBreak" : "shortBreak");
+          startPomodoro();
+        } else {
+          switchPomodoroMode("work");
+        }
+      }
+    }
+
+    const wishes = [
+      "Dileğin yıldızlara emanet, Buse. Şimdi huzurla uyu. 🌟",
+      "Umarım sabahın, bu geceki yıldızlar kadar güzel olur. 💫",
+      "Güzel rüyalar seni bulsun… iyi geceler! 🌙"
+    ];
+    const dayWishes = [
+      "Bugün kendine inan, Buse. Güzel şeyler başaracaksın! ☀️",
+      "Yeni gün sana bolca neşe ve güzel sürprizler getirsin. 🌼",
+      "Küçük bir adım bile seni hedefine yaklaştırır. Hadi, harika bir gün olsun! ✨"
+    ];
+    const nightNotes = [
+      "Yıldızlar bu gece senin için parlıyor. ✨",
+      "Bugün elinden geleni yaptın; şimdi dinlenebilirsin. 🌙",
+      "Güzel rüyalar, güzel kalpli Buse. 💜",
+      "Her şey yarın biraz daha güzel olacak. 🌠",
+      "Ay ışığı sana huzur getirsin. 🤍",
+      "Senin gülüşün gecenin yıldızlarından daha parlak. ⭐"
+    ];
+    const dayNotes = [
+      "Bugün yüzünden gülümseme eksik olmasın, Buse! 🌷",
+      "Minik bir kedi sana güzel bir gün diliyor. 🐱",
+      "Bugün senin için çiçekler açsın! 🌼",
+      "Kendine inan; bugün harika şeyler başarabilirsin. ☀️",
+      "Sana kocaman bir pati ve bolca mutluluk! 🐾",
+      "Günün papatyalar kadar güzel geçsin. 🌸"
+    ];
+
+    function showGreetingNote(x, y) {
+      const isDay = document.body.dataset.theme === "day";
+      const messages = isDay ? dayNotes : nightNotes;
+
+      const note = document.createElement("div");
+      note.className = isDay ? "night-note day-note" : "night-note";
+      note.setAttribute("aria-hidden", "true");
+      note.textContent = messages[Math.floor(Math.random() * messages.length)];
+      note.style.left = `${Math.max(16, Math.min(x, window.innerWidth - 16))}px`;
+      note.style.top = `${Math.max(16, Math.min(y, window.innerHeight - 16))}px`;
+      note.style.transform = "translate(-50%, -100%)";
+      document.body.append(note);
+
+      const bounds = note.getBoundingClientRect();
+      note.style.left = `${Math.max(16 + bounds.width / 2, Math.min(x, window.innerWidth - 16 - bounds.width / 2))}px`;
+      note.style.top = `${Math.max(bounds.height + 16, Math.min(y, window.innerHeight - 16))}px`;
+      nightNoteStatus.textContent = note.textContent;
+      window.setTimeout(() => note.remove(), 2900);
+
+      if (isDay) {
+        const decorations = [
+          { glyph: "🌸", x: -42, y: -25 },
+          { glyph: "🐈", x: 39, y: -31 },
+          { glyph: "🌼", x: 2, y: -53 },
+          { glyph: "🐾", x: -13, y: 26 }
+        ];
+        for (const decoration of decorations) {
+          const element = document.createElement("span");
+          element.className = "day-sparkle";
+          element.setAttribute("aria-hidden", "true");
+          element.textContent = decoration.glyph;
+          element.style.left = `${x}px`;
+          element.style.top = `${y}px`;
+          element.style.setProperty("--deco-x", `${decoration.x}px`);
+          element.style.setProperty("--deco-y", `${decoration.y}px`);
+          element.style.setProperty("--deco-size", decoration.glyph === "🐈" ? "27px" : "23px");
+          document.body.append(element);
+          element.addEventListener("animationend", () => element.remove(), { once: true });
+        }
+        return;
+      }
+
+      const sparkleStyles = [
+        { glyph: "✦", x: -34, y: -24, color: "#ffe8a6", size: "19px" },
+        { glyph: "✧", x: 32, y: -28, color: "#d9c7ff", size: "23px" },
+        { glyph: "✶", x: 0, y: -44, color: "#fff6e9", size: "16px" }
+      ];
+      for (const sparkleStyle of sparkleStyles) {
+        const sparkle = document.createElement("span");
+        sparkle.className = "note-sparkle";
+        sparkle.setAttribute("aria-hidden", "true");
+        sparkle.textContent = sparkleStyle.glyph;
+        sparkle.style.left = `${x}px`;
+        sparkle.style.top = `${y}px`;
+        sparkle.style.setProperty("--sparkle-x", `${sparkleStyle.x}px`);
+        sparkle.style.setProperty("--sparkle-y", `${sparkleStyle.y}px`);
+        sparkle.style.setProperty("--sparkle-color", sparkleStyle.color);
+        sparkle.style.setProperty("--sparkle-size", sparkleStyle.size);
+        document.body.append(sparkle);
+        sparkle.addEventListener("animationend", () => sparkle.remove(), { once: true });
+      }
+    }
+
+    sky.addEventListener("click", (event) => {
+      if (!event.target.closest(".star")) return;
+      showGreetingNote(event.clientX, event.clientY);
+    });
+    greeting.addEventListener("click", (event) => {
+      if (!event.target.closest(".orbit-star")) return;
+      showGreetingNote(event.clientX, event.clientY);
+    });
+    dayGarden.addEventListener("click", (event) => {
+      if (!event.target.closest(".garden-decoration")) return;
+      showGreetingNote(event.clientX, event.clientY);
+    });
+
+    for (let index = 0; index < 90; index += 1) {
+      const star = document.createElement("span");
+      star.className = "star";
+      star.style.left = `${Math.random() * 100}%`;
+      star.style.top = `${Math.random() * 100}%`;
+      star.style.setProperty("--size", `${Math.random() * 2.5 + 1.5}px`);
+      star.style.setProperty("--opacity", `${Math.random() * .35 + .6}`);
+      star.style.setProperty("--duration", `${Math.random() * 3 + 2}s`);
+      star.style.setProperty("--delay", `${Math.random() * -5}s`);
+      sky.append(star);
+    }
+
+    updateCountdown();
+    window.setInterval(updateCountdown, 1000);
+    updateTheme();
+    window.setInterval(() => updateDailyMotivation(), 60_000);
+    window.setInterval(() => updateTheme(), 30_000);
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) updateTheme();
+    });
+    window.addEventListener("pagehide", stopAmbience);
+
+    pomodoroToggle.addEventListener("click", () => {
+      if (pomodoroInterval) {
+        pomodoroRemaining = Math.max(0, Math.ceil((pomodoroDeadline - Date.now()) / 1000));
+        stopPomodoro();
+        renderPomodoro();
+        return;
+      }
+
+      startPomodoro();
+    });
+
+    document.querySelector("#pomodoro-reset").addEventListener("click", () => {
+      stopPomodoro();
+      switchPomodoroMode(pomodoroModeKey);
+    });
+
+    document.querySelector("#pomodoro-settings").addEventListener("submit", (event) => {
+      event.preventDefault();
+      const durationInput = document.querySelector("#pomodoro-duration");
+      const breakDurationInput = document.querySelector("#pomodoro-break-duration");
+      const durationMinutes = Number(durationInput.value);
+      const breakMinutes = Number(breakDurationInput.value);
+      if (!Number.isInteger(durationMinutes) || durationMinutes < 1 || durationMinutes > 180) {
+        durationInput.reportValidity();
+        return;
+      }
+      if (!Number.isInteger(breakMinutes) || breakMinutes < 1 || breakMinutes > 60) {
+        breakDurationInput.reportValidity();
+        return;
+      }
+
+      stopPomodoro();
+      workDuration = durationMinutes * 60;
+      shortBreakDuration = breakMinutes * 60;
+      switchPomodoroMode("work");
+      document.querySelector("#pomodoro-feedback").textContent =
+        `Odak ${durationMinutes} dk, kısa mola ${breakMinutes} dk olarak ayarlandı.`;
+    });
+
+    document.querySelector("#pomodoro-break").addEventListener("click", () => {
+      stopPomodoro();
+      switchPomodoroMode("shortBreak");
+      startPomodoro();
+    });
+
+    button.addEventListener("click", () => {
+      const messages = document.body.dataset.theme === "day" ? dayWishes : wishes;
+      response.textContent = messages[Math.floor(Math.random() * messages.length)];
+      response.classList.add("visible");
+
+      const shootingStar = document.createElement("span");
+      shootingStar.className = "shooting-star";
+      shootingStar.setAttribute("aria-hidden", "true");
+      document.body.append(shootingStar);
+      shootingStar.addEventListener("animationend", () => shootingStar.remove(), { once: true });
+    });
+  </script>
+</body>
+</html>
